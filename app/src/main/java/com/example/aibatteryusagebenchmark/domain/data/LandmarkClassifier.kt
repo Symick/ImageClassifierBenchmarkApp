@@ -5,5 +5,5 @@ import com.example.aibatteryusagebenchmark.domain.model.Classification
 
 interface LandmarkClassifier {
 
-    fun classify(bitmap: Bitmap) : List<Classification>
+   suspend fun classify(bitmap: Bitmap) : List<Classification>
 }
