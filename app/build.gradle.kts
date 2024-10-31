@@ -69,7 +69,7 @@ dependencies {
     ksp(libs.koin.ksp.compiler)
 
     //LiteRT
-    implementation(libs.litert)
+    implementation(libs.tflite.task.vision)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
