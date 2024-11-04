@@ -1,9 +1,16 @@
 package com.example.benchmark
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.benchmark.macro.ExperimentalMetricApi
+import androidx.benchmark.macro.MacrobenchmarkScope
+import androidx.benchmark.macro.PowerMetric
 import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Until
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,13 +33,29 @@ class BatteryUsageBenchmark {
     val benchmarkRule = MacrobenchmarkRule()
 
     @Test
+    @OptIn(ExperimentalMetricApi::class)
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun startup() = benchmarkRule.measureRepeated(
         packageName = "com.example.aibatteryusagebenchmark",
-        metrics = listOf(StartupTimingMetric()),
+        metrics = listOf(PowerMetric(PowerMetric.Battery())),
         iterations = 5,
         startupMode = StartupMode.COLD
     ) {
         pressHome()
         startActivityAndWait()
+
+        clickButtons()
+    }
+
+    private fun MacrobenchmarkScope.clickButtons() {
+        repeat(5) {
+            device.findObject(By.text("Select image from gallery")).click()
+
+            device.wait(Until.hasObject(By.text("Upload Image")), 5000L)
+
+            device.findObject(By.text("Upload Image")).click()
+
+            Thread.sleep(3000L)
+        }
     }
 }
