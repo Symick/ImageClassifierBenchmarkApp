@@ -16,10 +16,13 @@ class GetImage {
         return drawables.random()
     }
 
-    private val drawables = listOf(
-        R.drawable.stonehenge,
-        R.drawable.trevi_fountain,
-        R.drawable.arc_de_triomphe,
-        R.drawable.eiffel_tower
-    )
+    companion object {
+
+        val drawables = listOf(
+            R.drawable.stonehenge,
+            R.drawable.trevi_fountain,
+            R.drawable.arc_de_triomphe,
+            R.drawable.eiffel_tower
+        )
+    }
 }

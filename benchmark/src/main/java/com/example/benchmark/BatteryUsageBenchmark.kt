@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.ExperimentalMetricApi
 import androidx.benchmark.macro.MacrobenchmarkScope
+import androidx.benchmark.macro.PowerCategory
+import androidx.benchmark.macro.PowerCategoryDisplayLevel
 import androidx.benchmark.macro.PowerMetric
 import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.StartupTimingMetric
@@ -37,7 +39,15 @@ class BatteryUsageBenchmark {
     @RequiresApi(Build.VERSION_CODES.Q)
     fun startup() = benchmarkRule.measureRepeated(
         packageName = "com.example.aibatteryusagebenchmark",
-        metrics = listOf(PowerMetric(PowerMetric.Battery())),
+        metrics = listOf(
+            PowerMetric(
+                PowerMetric.Energy(
+                    mapOf(
+                        PowerCategory.MACHINE_LEARNING to PowerCategoryDisplayLevel.TOTAL
+                    )
+                )
+            )
+        ),
         iterations = 5,
         startupMode = StartupMode.COLD
     ) {
@@ -48,14 +58,16 @@ class BatteryUsageBenchmark {
     }
 
     private fun MacrobenchmarkScope.clickButtons() {
-        repeat(5) {
+        repeat(10) {
             device.findObject(By.text("Select image from gallery")).click()
 
             device.wait(Until.hasObject(By.text("Upload Image")), 5000L)
 
+            Thread.sleep(500L)
+
             device.findObject(By.text("Upload Image")).click()
 
-            Thread.sleep(3000L)
+            Thread.sleep(2500L)
         }
     }
 }
