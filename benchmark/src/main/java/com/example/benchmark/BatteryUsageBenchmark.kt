@@ -43,7 +43,9 @@ class BatteryUsageBenchmark {
             PowerMetric(
                 PowerMetric.Energy(
                     mapOf(
-                        PowerCategory.MACHINE_LEARNING to PowerCategoryDisplayLevel.TOTAL
+                        PowerCategory.CPU to PowerCategoryDisplayLevel.TOTAL,
+                        PowerCategory.MEMORY to PowerCategoryDisplayLevel.TOTAL,
+                        PowerCategory.GPU to PowerCategoryDisplayLevel.TOTAL
                     )
                 )
             )
@@ -58,7 +60,10 @@ class BatteryUsageBenchmark {
     }
 
     private fun MacrobenchmarkScope.clickButtons() {
-        repeat(10) {
+        // Runs the test for +- 30 minutes
+        repeat(600) {
+            device.wait(Until.hasObject(By.text("Select image from gallery")), 5000L)
+
             device.findObject(By.text("Select image from gallery")).click()
 
             device.wait(Until.hasObject(By.text("Upload Image")), 5000L)
