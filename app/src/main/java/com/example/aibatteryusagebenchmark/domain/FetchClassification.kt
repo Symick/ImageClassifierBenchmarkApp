@@ -8,7 +8,7 @@ import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Named
 
 @Factory
-class FetchClassification(@Named("NoOp") private val landmarkClassifier: LandmarkClassifier) {
+class FetchClassification(@Named("liteRt") private val landmarkClassifier: LandmarkClassifier) {
 
     suspend operator fun invoke(bitmap: Bitmap): Classification {
         return landmarkClassifier.classify(

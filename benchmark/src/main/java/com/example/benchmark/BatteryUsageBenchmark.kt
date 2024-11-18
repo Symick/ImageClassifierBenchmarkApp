@@ -2,6 +2,7 @@ package com.example.benchmark
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.benchmark.macro.CompilationMode
 import androidx.benchmark.macro.ExperimentalMetricApi
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.PowerCategory
@@ -51,7 +52,7 @@ class BatteryUsageBenchmark {
             )
         ),
         iterations = 5,
-        startupMode = StartupMode.COLD
+        startupMode = StartupMode.COLD,
     ) {
         pressHome()
         startActivityAndWait()
@@ -61,7 +62,9 @@ class BatteryUsageBenchmark {
 
     private fun MacrobenchmarkScope.clickButtons() {
         // Runs the test for +- 30 minutes
-        repeat(600) {
+        val startTime = System.currentTimeMillis()
+        val thirtyMinutesInMillis = 30 * 60 * 1000
+        while(startTime + thirtyMinutesInMillis > System.currentTimeMillis()) {
             device.wait(Until.hasObject(By.text("Select image from gallery")), 5000L)
 
             device.findObject(By.text("Select image from gallery")).click()

@@ -6,18 +6,3 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.android.test) apply false
 }
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://plugins.gradle.org/m2/") }
-    }
-}
-allprojects {
-    repositories {
-        mavenLocal()
-        google()
-        mavenCentral()
-    }
-}
